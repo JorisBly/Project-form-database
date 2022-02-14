@@ -12,6 +12,7 @@ if (isset($_POST['submit'])) {
     // 3: Tester si le country exist
     // cas1: le country exist et on recupère son id
     // cas2: Si il existe pas on le crée dans la base de donnée
+
     $stmt_countryIfExistOrNot = $pdo->prepare(
         'SELECT * FROM countries WHERE name = :countryName'
     );
@@ -40,9 +41,9 @@ if (isset($_POST['submit'])) {
         'INSERT INTO adresses (street, postal_code, city, countries_id_country)
                    VALUES (:street, :postal_code, :city, :countries_id_country)');
     $stmt_adress->execute([
-        'street' => $_POST['adress'],
-        'postal_code' => $_POST['postal'],
-        'city' => $_POST['city'],
+        'street' =>  ucfirst(mb_strtolower(trim($_POST['adress']))),
+        'postal_code' => trim($_POST['postal']),
+        'city' =>  ucfirst(mb_strtolower(trim($_POST['city']))),
         'countries_id_country' => $id_country,
 
     ]);
@@ -56,8 +57,8 @@ if (isset($_POST['submit'])) {
         'first_name' => ucfirst(mb_strtolower(trim($_POST['first_name']))),
         'last_name' => ucfirst(mb_strtolower(trim($_POST['last_name']))),
         'birthdate' => $_POST['birthdate'],
-        'email' => $_POST['email'],
-        'phone' => $_POST['phone'],
+        'email' => mb_strtolower($_POST['email']),
+        'phone' => trim($_POST['phone']),
         'civility' => $_POST['civility'],
         'sex' => $_POST['sex'],
     ]);
